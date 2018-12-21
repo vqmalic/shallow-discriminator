@@ -13,6 +13,7 @@ def get_all_rf(model):
 	out = []
 	input_name = model.layers[0].name
 	for layer in model.layers:
+		print(layer.name)
 		if "conv"in layer.name.lower():
 			info = get_rf_info(graph_def, input_name, layer.name + "/convolution")
 			out.append([layer.name] + info)

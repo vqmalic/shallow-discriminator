@@ -20,7 +20,7 @@ def Model01(size=(256, 256, 3)):
 	x = Conv2D(128, (3, 3), 
 		activation='relu',
 		padding='same',
-		name='block2_conv2')(x)
+		name='block2_conv1')(x)
 	x = Conv2D(128, (3, 3),
 		activation='relu',
 		padding='same',
@@ -65,21 +65,21 @@ def Model01(size=(256, 256, 3)):
 	x = Conv2D(512, (1, 1), 
 		activation='relu',
 		padding='same',
-		name='head_conv1')
+		name='head_conv1')(x)
 	x = Conv2D(512, (1, 1), 
 		activation='relu',
 		padding='same',
-		name='head_conv2')
+		name='head_conv2')(x)
 	x = Conv2D(512, (1, 1), 
 		activation='relu',
 		padding='same',
-		name='head_conv3')
+		name='head_conv3')(x)
 
 	# GAP
-	x = GlobalAveragePooling2D()(x)
+	x = GlobalAveragePooling2D(name='gap')(x)
 
 	# Predict
-	x = Dense(1, activation='sigmoid', name='fc_1')
+	x = Dense(1, activation='sigmoid', name='fc_1')(x)
 
 	model = Model(inputTensor, x, name='model01')
 
