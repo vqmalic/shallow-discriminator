@@ -94,7 +94,7 @@ validgen = Generator(x, y, batch_size, pipeline=None)
 
 model = Model01()
 opt = Adam(lr=0.0001)
-model.compile(loss='binary_crossentropy', optimizer=op, metrics['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
 model.summary()
 
 ######################
