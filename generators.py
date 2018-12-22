@@ -1,4 +1,8 @@
 from keras.utils import Sequence
+from keras.preprocessing.image import load_img, img_to_array
+
+import Augmentor
+import numpy as np
 
 class Generator(Sequence):
 
@@ -24,7 +28,7 @@ class Generator(Sequence):
 
             for img in to_ops:
                 this = [img]
-                for operation in p.operations:
+                for operation in self.p.operations:
                     r = np.round(np.random.uniform(0, 1, 1), 1)[0]
                     if r <= operation.probability:
                         this = operation.perform_operation(this)
