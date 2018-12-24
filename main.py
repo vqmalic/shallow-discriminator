@@ -24,6 +24,8 @@ from models import Model01
 ######################
 
 batch_size = 64
+continue_training = '/home/vqmalic/projects/shallow-discriminator/logs/20181221115523/epoch_0007-0.0649.hdf5'
+start_epoch = 8
 
 ######################
 # Set up generators
@@ -92,10 +94,13 @@ validgen = Generator(x, y, batch_size, pipeline=None)
 # Load Model
 ######################
 
-model = Model01()
-opt = Adam(lr=0.0001)
-model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
-model.summary()
+if continue_training:
+	model = load_model(continue_training)
+else:
+	model = Model01()
+	opt = Adam(lr=0.0001)
+	model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+	model.summary()
 
 ######################
 # Training
@@ -113,4 +118,5 @@ model.fit_generator(
     use_multiprocessing=True,
     shuffle=True,
     workers=10,
-    max_queue_size=50)
+    max_queue_size=50,
+    initial_epoch=starting_epoch)
