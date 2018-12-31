@@ -119,4 +119,4 @@ model.fit_generator(
     shuffle=True,
     workers=10,
     max_queue_size=50,
-    initial_epoch=starting_epoch)
+    initial_epoch=start_epoch)

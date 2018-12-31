@@ -1,5 +1,6 @@
 import tensorflow as tf
 import keras.backend as K
+from keras.preprocessing.image import load_img, img_to_array
 
 rf = tf.contrib.receptive_field.compute_receptive_field_from_graph_def
 
@@ -21,3 +22,9 @@ def get_all_rf(model):
 			info = get_rf_info(graph_def, input_name, layer.name + "/MaxPool")
 			out.append([layer.name] + info)
 	return out
+
+def path_to_array(path):
+    img = load_img(path)
+    img = img_to_array(img)
+    img /= 255.
+    return img
