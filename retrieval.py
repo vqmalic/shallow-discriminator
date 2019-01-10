@@ -73,7 +73,7 @@ for i in tqdm(range(n_batches)):
         for tar_idx in range(d.shape[1]):
             this_d = d[cand_idx, tar_idx]
             if len(nearest[cand_idx]) < keep:
-                nearest[cand_idx].append((these_imgs[tar_idx], offsets[tar_idx], this_d))
+                nearest[cand_idx].append((these_imgs[tar_idx], this_d))
             else:
                 current = nearest[cand_idx]
                 current_vals = np.array([x[-1] for x in current])
@@ -81,4 +81,28 @@ for i in tqdm(range(n_batches)):
                 max_val = np.max(current_vals)
                 if this_d < max_val:
                     current.pop(max_where)
-                    current.append((these_imgs[tar_idx], offsets[tar_idx], this_d))
+                    current.append((these_imgs[tar_idx], this_d))
+
+##########################
+# visualize
+##########################
+
+show_n = 9
+gutter = 5
+
+out = np.zeros((256 * len(retpaths), 256 * (show_n + 1) + gutter, 3))
+
+for cand_idx, path in enumerate(retpaths):
+    arr = path_to_array(path)
+    out[cand_idx * 256:cand_idx * 256 + 256, 0:256, :] = arr
+    these_nearest = nearest[cand_idx]
+    these_nearest = sorted(these_nearest, key=lambda x:x[-1]).copy()
+    these_nearest = these_nearest[:show_n]
+    for tar_idx, info in enumerate(these_nearest):
+        path = info[0]
+        arr = path_to_array(path)
+        out[cand_idx*256:cand_idx*256 + 256, (tar_idx + 1) * 256+gutter: (tar_idx+1)*256 + 256+gutter, :] = arr
+out = out * 255.
+out = out.astype("uint8")
+img = Image.fromarray(out)
+img.save("nearest.jpg")
