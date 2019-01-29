@@ -34,6 +34,13 @@ class Generator(Sequence):
                         this = operation.perform_operation(this)
                 to_out = img_to_array(this[0])
                 to_out /= 255.
+                # patch attempt
+                x_len, y_len = 76, 76
+                x_start = np.random.randint(0, 256-x_len)
+                y_start = np.random.randint(0, 256-y_len)
+                to_out = to_out[x_start:x_start+x_len, y_start:y_start+y_len, :]
+
+
                 x_out.append(to_out)
                 img.close()
             return np.array(x_out), np.array(batch_y)
@@ -44,5 +51,11 @@ class Generator(Sequence):
                 img = load_img(path)
                 arr = img_to_array(img)
                 arr /= 255.
+                # patch attempt
+                x_len, y_len = 76, 76
+                x_start = np.random.randint(0, 256-x_len)
+                y_start = np.random.randint(0, 256-y_len)
+                arr = arr[x_start:x_start+x_len, y_start:y_start+y_len, :]
+
                 x_out.append(arr)
             return np.array(x_out), np.array(batch_y)
